@@ -6,9 +6,10 @@ import java.net.Socket;
 import java.util.Observable;
 
 public class Server extends Observable implements Runnable{
-    int puerto;
-    public Servidor(int puerto);{
-        this.puerto = puerto
+    private int puerto;
+
+    public Servidor(int puerto){
+        this.puerto = puerto;
     }
 
     public void run() {
