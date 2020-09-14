@@ -8,7 +8,7 @@ import java.util.Observable;
 public class Server extends Observable implements Runnable{
     private int puerto;
 
-    public Servidor(int puerto){
+    public Server(int puerto){
         this.puerto = puerto;
     }
 
