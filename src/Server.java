@@ -10,27 +10,28 @@ public class Server extends Observable implements Runnable{
     public Servidor(int puerto);{
         this.puerto = puerto
     }
+
     public void run() {
         ServerSocket servidor;
         Socket sc;
         DataInputStream in;
         DataOutputStream out;
 
-        int PUERTO = 5000;
-
         try{
-            servidor = new ServerSocket(PUERTO);
+            servidor = new ServerSocket(puerto);
             System.out.println("Servidor iniciado");
             while (true){
                 sc = servidor.accept();
                 System.out.println("Cliente Conectado");
 
                 in = new DataInputStream(sc.getInputStream());
-                out = new DataOutputStream(sc.getOutputStream());
 
                 String mensaje = in.readUTF();
                 System.out.println(mensaje);
 
+                this.setChanged();
+                this.notifyObservers(mensaje);
+                this.clearChanged();
 
                 sc.close();
                 System.out.println("Cliente Desconectado");
