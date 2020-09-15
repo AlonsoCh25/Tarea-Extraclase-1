@@ -1,32 +1,29 @@
+//import the libraries
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-
+//Principal class of the APP
 public class AppTwo extends javax.swing.JFrame implements Observer{
     public AppTwo() {
-        this.getRootPane().setDefaultButton(this.BTENVIAR);
+        this.getRootPane().setDefaultButton(this.BTSEND);
         Server s = new Server(6000);
         s.addObserver(this);
         Thread t = new Thread(s);
         t.start();
-        BTENVIAR.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String mensaje = "2: " + TXTMENSAJE.getText() + "\n";
-                TXTCHAT.append(mensaje);
-                Client c = new Client(5000, mensaje);
-                Thread t = new Thread(c);
-                t.start();
-            }
+        BTSEND.addActionListener(e -> {
+            String message = "2: " + TXTMESSAGE.getText() + "\n";
+            TXTCHAT.append(message);
+            Client c = new Client(5000, message);
+            Thread t1 = new Thread(c);
+            t1.start();
         });
     }
-
-    private JTextField TXTMENSAJE;
+    //Creation of private variables
+    private JTextField TXTMESSAGE;
     private JTextArea TXTCHAT;
-    private JButton BTENVIAR;
+    private JButton BTSEND;
     private JPanel Panel1;
+    //Main of the class
     public static void main(String[] args) {
         JFrame frame = new JFrame("AppTwo");
         frame.setContentPane(new AppTwo().Panel1);
@@ -35,6 +32,7 @@ public class AppTwo extends javax.swing.JFrame implements Observer{
         frame.setVisible(true);
     }
     @Override
+    //method that makes the observer update
     public void update(Observable o, Object arg){
         this.TXTCHAT.append((String) arg);
     }
