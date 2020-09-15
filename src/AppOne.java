@@ -4,9 +4,8 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class AppOne extends JFrame implements Observer{
+public class AppOne extends javax.swing.JFrame implements Observer{
     public AppOne() {
-        //initComponents();
         this.getRootPane().setDefaultButton(this.btnEnviar);
         Server s = new Server(5000);
         s.addObserver(this);
@@ -15,15 +14,15 @@ public class AppOne extends JFrame implements Observer{
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String mensaje = txtmensaje.getText();
-                if(mensaje != ""){
-                    txtChat.setText("1: "+ mensaje + "\n");
-                    Client c = new Client(6000, mensaje);
-                    
-                }
+                String mensaje = "1: " + txtmensaje.getText() + "\n";
+                txtChat.append(mensaje);
+                Client c = new Client(6000, mensaje);
+                Thread t = new Thread(c);
+                t.start();
             }
         });
     }
+
     private JTextArea txtChat;
     private JButton btnEnviar;
     private JTextField txtmensaje;
@@ -36,6 +35,7 @@ public class AppOne extends JFrame implements Observer{
         frame.setVisible(true);
     }
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg){
+        this.txtChat.append((String) arg);
     }
 }

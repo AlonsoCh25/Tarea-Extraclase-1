@@ -12,6 +12,7 @@ public class Server extends Observable implements Runnable{
         this.puerto = puerto;
     }
 
+    @Override
     public void run() {
         ServerSocket servidor;
         Socket sc;

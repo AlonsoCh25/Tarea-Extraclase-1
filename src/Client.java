@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Client implements Runnable{
-    int puerto;
-    String mensaje;
+    private int puerto;
+    private String mensaje;
 
     public Client (int puerto, String mensaje){
         this.puerto = puerto;
@@ -13,11 +13,10 @@ public class Client implements Runnable{
     }
 
     public void run() {
-        String HOST = "127.0.0.1";
+        final String HOST = "127.0.0.1";
+        DataOutputStream out;
         try{
             Socket sc = new Socket(HOST, puerto);
-            DataInputStream in;
-            DataOutputStream out;
 
             out = new DataOutputStream(sc.getOutputStream());
 
