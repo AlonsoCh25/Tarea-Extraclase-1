@@ -1,3 +1,4 @@
+//import the libraries
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -5,42 +6,45 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
 
+//Create the Server class, with its characteristics
 public class Server extends Observable implements Runnable{
-    private int puerto;
-
-    public Server(int puerto){
-        this.puerto = puerto;
+    //Create the private varibles
+    private int port;
+    //Function that assigns the port value
+    public Server(int port){
+        this.port = port;
     }
-
     @Override
+    //Function that creates and connects to the server
     public void run() {
-        ServerSocket servidor;
-        Socket sc;
-        DataInputStream in;
-        DataOutputStream out;
-
+        //Create the varibles
+        ServerSocket server;
+        Socket SC;
+        DataInputStream IN;
+        //Try to create the server
         try{
-            servidor = new ServerSocket(puerto);
-            System.out.println("Servidor iniciado");
+            //Create the server
+            server = new ServerSocket(port);
+            System.out.println("Started Server");
             while (true){
-                sc = servidor.accept();
-                System.out.println("Cliente Conectado");
-
-                in = new DataInputStream(sc.getInputStream());
-
-                String mensaje = in.readUTF();
-                System.out.println(mensaje);
-
+                //Wait for a client to connect
+                SC = server.accept();
+                System.out.println("Client Connected");
+                //wait for information
+                IN = new DataInputStream(SC.getInputStream());
+                //Assign the information received to a variable
+                String message = IN.readUTF();
+                //Whait for any changes and notify the Observers
                 this.setChanged();
-                this.notifyObservers(mensaje);
+                this.notifyObservers(message);
                 this.clearChanged();
-
-                sc.close();
-                System.out.println("Cliente Desconectado");
-
-
+                //Close the server
+                SC.close();
+                System.out.println("Disconnected Client");
             }
-        } catch (IOException e) {
+        }
+        //Catch method
+        catch (IOException e) {
             e.printStackTrace();
         }
 
