@@ -1,21 +1,16 @@
 //import the libraries
 import javax.swing.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
+
 //Principal class of the APP
-public class Chat extends javax.swing.JFrame implements Observer{
-    public Chat() {
+public class Chat extends javax.swing.JFrame implements Observer , Runnable{
+    int port;
+    public Chat(){
         this.getRootPane().setDefaultButton(this.btnSend);
-        Server s = new Server(5000);
-        s.addObserver(this);
-        Thread t = new Thread(s);
-        t.start();
         btnSend.addActionListener(e -> {
             String message = "1: " + txtMessage.getText() + "\n";
             txtChat.append(message);
-            Client c = new Client(6000, message);
+            Client c = new Client(message, port, Play.chat);
             Thread t1 = new Thread(c);
             t1.start();
         });
@@ -26,17 +21,34 @@ public class Chat extends javax.swing.JFrame implements Observer{
     private JTextField txtMessage;
     private JPanel Panel;
 
-    //Main of the class
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Chat");
-        frame.setContentPane(new Chat().Panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
     @Override
     //method that makes the observer update
     public void update(Observable o, Object arg){
+        System.out.println("Observador actualizado");
         this.txtChat.append((String) arg);
+        System.out.println(this.txtChat.getText());
     }
+
+    @Override
+    public void run() {
+        Server s = new Server(6000);
+        s.addObserver(this);
+        Thread t = new Thread(s);
+        t.start();
+        }
+    static class Play {
+        private static int port_ = 0;
+        private static int chat = 1;
+        public static void main(String[] args){
+            for(int i=1;i <= chat; i+=1){
+                System.out.println("Veces ejecutadas");
+                port_ += 1;
+                Chat c = new Chat();
+                c.port = port_+5000;
+                Thread t = new Thread(c);
+                t.start();
+            }
+        }
+    }
+
 }

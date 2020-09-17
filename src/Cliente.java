@@ -3,30 +3,24 @@ import java.io.IOException;
 import java.net.Socket;
 
 //Create the class client
-public class Client implements Runnable{
+public class Cliente implements Runnable{
     //creation of private variables
     private int port;
     private String message;
-    private int chat;
     //Function that assigns the port and message values
-    public Client (String message, int port, int chat){
+    public Cliente (String message, int port){
         this.message = message;
         this.port = port;
-        this.chat = chat;
-        System.out.println("Client port " + port);
     }
     //Function that creates and connects to the socket
-    public void run() {
-        for(int i=1;i<= chat; i+=1){
-            if(5000+i != port){
-                System.out.println("Send message to " + (i+5000));
+    public void run() { ;
                 //Create the constant String HOST
                 final String HOST = "127.0.0.1";
                 DataOutputStream out;
                 //Try to connect to socket
                 try{
                     //Create a new socket
-                    Socket sc = new Socket(HOST, (i+5000));
+                    Socket sc = new Socket(HOST, port);
                     //Create the out data
                     out = new DataOutputStream(sc.getOutputStream());
                     //Write the message
@@ -38,8 +32,13 @@ public class Client implements Runnable{
                 catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        }
-
     }
+    static class play_c{
+        public static void main(String[] args){
+            Cliente c = new Cliente("HOLA", 5001);
+            Thread t = new Thread(c);
+            t.start();
+        }
+    }
+
 }

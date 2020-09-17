@@ -5,19 +5,11 @@ import java.net.Socket;
 import java.util.Observable;
 
 //Create the Server class, with its characteristics
-public class Server extends Observable implements Runnable{
-    //Create the private varibles
-    private int port;
-    //Function that assigns the port value
-    public Server(int port){
-        this.port = port;
-        System.out.println("Server Port " + port);
-    }
-
-    @Override
+public class Servidor extends Observable implements Runnable{
     //Function that creates and connects to the server
-    public void run() {
+    public Servidor(){
         //Create the varibles
+        int port = 5000;
         ServerSocket server;
         Socket SC;
         DataInputStream IN;
@@ -35,9 +27,9 @@ public class Server extends Observable implements Runnable{
                 //Assign the information received to a variable
                 String message = IN.readUTF();
                 //Whait for any changes and notify the Observers
-                this.setChanged();
-                this.notifyObservers(message);
-                this.clearChanged();
+                setChanged();
+                notifyObservers(message);
+                clearChanged();
                 //Close the server
                 SC.close();
                 System.out.println("Disconnected Client");
@@ -47,6 +39,15 @@ public class Server extends Observable implements Runnable{
         catch (IOException e) {
             e.printStackTrace();
         }
-
+    }
+    @Override
+    public void run() {
+    }
+    static class play{
+        public static void main(String[] args){
+            Servidor c = new Servidor();
+            Thread t = new Thread(c);
+            t.start();
+        }
     }
 }
