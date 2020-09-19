@@ -1,22 +1,30 @@
 import javax.imageio.IIOException;
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client{
-    private Socket socket;
-    BufferedReader entry;
-    PrintWriter exit;
+    Socket socket;
+    //BufferedReader entry;
+    //PrintWriter exit;
+    DataOutputStream exit;
+    DataInputStream entry;
 
     public Client(Socket socket) throws IOException {
         this.socket = socket;
-        entry = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        exit = new DataOutputStream(socket.getOutputStream());
+        entry = new DataInputStream(socket.getInputStream());
+        //entry = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         //The bolean lets send the message immediately
-        exit = new PrintWriter(socket.getOutputStream(), true);
+        //exit = new PrintWriter(socket.getOutputStream(), true);
     }
     public boolean itsConnected() throws IIOException{
         return socket.isClosed();
     }
+    public void sendMessage(String message) throws IOException {
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+    }
+
 }
