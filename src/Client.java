@@ -16,9 +16,6 @@ public class Client{
         this.socket = socket;
         exit = new DataOutputStream(socket.getOutputStream());
         entry = new DataInputStream(socket.getInputStream());
-        //entry = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        //The bolean lets send the message immediately
-        //exit = new PrintWriter(socket.getOutputStream(), true);
     }
     public boolean itsConnected() throws IIOException{
         return socket.isClosed();

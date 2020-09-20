@@ -3,8 +3,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Thread_Clients implements Runnable {
+public class Thread_Clients implements Runnable{
     Client client;
     Socket SC;
     DataOutputStream OUT;
@@ -24,10 +25,10 @@ public class Thread_Clients implements Runnable {
             try {
                 IN = new DataInputStream(SC.getInputStream());
                 INMessage = IN.readUTF();
-
                 for(Socket C: Clients){
                     OUT = new DataOutputStream(C.getOutputStream());
                     OUT.writeUTF(INMessage);
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
