@@ -1,9 +1,6 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -21,17 +18,14 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     public TextArea txtChat = new TextArea();
     public TextField txtMessage = new TextField();
     public StackPane layout = new StackPane();
-    public Scene scene = new Scene(layout, 500, 400);
     public String outMessage;
     public DataOutputStream exit;
     public Socket SC;
-    public Server server;
-    public Client client;
-    public Wait_message wait;
-    int cont;
+    int port;
 
     public Main() throws IOException{
-        int port = 6000;
+        this.port = 6000;
+        connect_client();
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -48,9 +42,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         layout.getChildren().add(txtChat);
         layout.getChildren().add(txtMessage);
         layout.getChildren().add(button);
+        Scene scene = new Scene(layout, 500, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
-        connect_client();
+
 
 
     }
@@ -67,20 +62,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     public void connect_client() throws IOException{
         this.SC = new Socket("127.0.0.1", 6000);
         System.out.println("SOCKET MAIN: " + this.SC);
-        Client client = new Client(SC);
         Wait_message wait = new Wait_message(SC, txtChat);
         Thread H = new Thread(wait);
         H.start();
     }
-    public static void main(String[] args){
-        int chats = 1;
-        int port = 6000;
-        Server server = new Server(port, chats);
-        Thread z = new Thread(server);
-        z.start();
-        launch(args);
-    }
-
     @Override
     public void handle(ActionEvent event) {
         try {
@@ -89,7 +74,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
             e.printStackTrace();
         }
     }
+    public static void main(String[] args){
+        launch(args);
+    }
 }
+
+
 class Wait_message implements Runnable{
     String inMessage;
     Socket client;
@@ -101,6 +91,7 @@ class Wait_message implements Runnable{
     }
     @Override
     public void run() {
+        System.out.println("WAIT MESSAGE");
         while(true){
         try {
             DataInputStream in = new DataInputStream(client.getInputStream());

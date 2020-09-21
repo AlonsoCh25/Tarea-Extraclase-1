@@ -8,13 +8,8 @@ import java.util.Observable;
 
 public class Server implements Runnable {
     private ServerSocket socket;
-    private Socket so;
-    private final int port;
+    public int port;
     final ArrayList<Client> Clients;
-    Thread_Clients thread_clients;
-    DataOutputStream OUT;
-    DataInputStream IN;
-    String INMessage;
     int chat;
     public Server(int port, int chat){
         this.chat = chat;
@@ -30,19 +25,16 @@ public class Server implements Runnable {
         }
         this.Clients = new ArrayList<>();
     }
-    public void addClient(Client client){
-        this.Clients.add(client);
-    }
-    public void sendGeneralMessaje(String message, Client clien) throws IOException {
-        for(Client client : Clients){
-            DataOutputStream ex = new DataOutputStream(client.socket.getOutputStream());
-            ex.writeUTF(message);
-            System.out.println("Enviando mensaje");
-            }
-        }
-
     @Override
     public void run() {
-
+    }
+}
+class Run_Server{
+    public static void main(String[] args) throws IOException{
+        int chats = 1;
+        int port = 6000;
+        Server server = new Server(port, chats);
+        Thread z = new Thread(server);
+        z.start();
     }
 }

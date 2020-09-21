@@ -3,11 +3,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Observable;
-
 public class Acept_Clients implements Runnable {
     ServerSocket socket;
-    Thread_Clients thread_clients;
     ArrayList<Socket> Clients;
     ArrayList<Thread_Clients> T_Client;
     private Socket so;
@@ -20,7 +17,7 @@ public class Acept_Clients implements Runnable {
     }
     @Override
     public void run() {
-        for(int i = 1;i <= chat; i+=1){
+        while(true){
             try {
                 so = new Socket();
                 so = socket.accept();
@@ -29,15 +26,17 @@ public class Acept_Clients implements Runnable {
                 Clients.add(so);
                 Thread P = new Thread(thread_clients);
                 P.start();
+                for(Thread_Clients A: T_Client) {
+                    for (Socket C : Clients) {
+                        A.addClient(C);
+                    }
+                }
                 System.out.println("Cliente conectado" + so);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        for(Thread_Clients A: T_Client){
-            for(Socket C: Clients){
-                A.addClient(C);
-            }
+
         }
     }
-}
+
