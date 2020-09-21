@@ -21,6 +21,7 @@ public class Server implements Runnable {
         this.port = port;
         try {
             this.socket = new ServerSocket(port);
+            System.out.println("Servidor Iniciado");
             Acept_Clients a = new Acept_Clients(socket, chat);
             Thread q = new Thread(a);
             q.start();
@@ -28,19 +29,6 @@ public class Server implements Runnable {
             e.printStackTrace();
         }
         this.Clients = new ArrayList<>();
-    }
-    public void init() throws IOException{
-        socket.accept();
-        System.out.println("Cliente conectado");
-    }
-    public void close() throws IOException{
-        socket.close();
-    }
-    public boolean connected(){
-        return socket.isClosed();
-    }
-    public Socket accept_connections() throws IOException{
-        return socket.accept();
     }
     public void addClient(Client client){
         this.Clients.add(client);

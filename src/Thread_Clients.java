@@ -21,13 +21,16 @@ public class Thread_Clients implements Runnable{
     }
     @Override
     public void run() {
+        System.out.println("THREAD CLIENT " + SC);
         while (true){
             try {
+
                 IN = new DataInputStream(SC.getInputStream());
                 INMessage = IN.readUTF();
                 for(Socket C: Clients){
                     OUT = new DataOutputStream(C.getOutputStream());
                     OUT.writeUTF(INMessage);
+                    System.out.println("MENSAJE ENVIADO");
 
                 }
             } catch (IOException e) {

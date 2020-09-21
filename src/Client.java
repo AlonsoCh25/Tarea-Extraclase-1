@@ -1,3 +1,4 @@
+
 import javax.imageio.IIOException;
 import java.io.BufferedReader;
 import java.io.*;
@@ -7,8 +8,6 @@ import java.net.Socket;
 
 public class Client{
     Socket socket;
-    //BufferedReader entry;
-    //PrintWriter exit;
     DataOutputStream exit;
     DataInputStream entry;
 
@@ -19,9 +18,6 @@ public class Client{
     }
     public boolean itsConnected() throws IIOException{
         return socket.isClosed();
-    }
-    public void sendMessage(String message) throws IOException {
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
     }
 
 }

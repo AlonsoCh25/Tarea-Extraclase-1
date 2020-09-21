@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,10 +27,9 @@ public class Acept_Clients implements Runnable {
                 Thread_Clients thread_clients = new Thread_Clients(so);
                 T_Client.add(thread_clients);
                 Clients.add(so);
-                //thread_clients.addClient(so);
                 Thread P = new Thread(thread_clients);
                 P.start();
-                System.out.println("Cliente conectado");
+                System.out.println("Cliente conectado" + so);
             } catch (IOException e) {
                 e.printStackTrace();
             }
