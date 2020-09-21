@@ -7,7 +7,6 @@ public class Acept_Clients implements Runnable {
     ServerSocket socket;
     ArrayList<Socket> Clients;
     ArrayList<Thread_Clients> T_Client;
-    private Socket so;
     int chat;
     public Acept_Clients(ServerSocket socket, int chat){
         this.chat = chat;
@@ -17,11 +16,13 @@ public class Acept_Clients implements Runnable {
     }
     @Override
     public void run() {
+        int client = 0;
         while(true){
             try {
-                so = new Socket();
+                Socket so;
                 so = socket.accept();
-                Thread_Clients thread_clients = new Thread_Clients(so);
+                client+=1;
+                Thread_Clients thread_clients = new Thread_Clients(so, client);
                 T_Client.add(thread_clients);
                 Clients.add(so);
                 Thread P = new Thread(thread_clients);
@@ -31,7 +32,6 @@ public class Acept_Clients implements Runnable {
                         A.addClient(C);
                     }
                 }
-                System.out.println("Cliente conectado" + so);
             } catch (IOException e) {
                 e.printStackTrace();
             }
