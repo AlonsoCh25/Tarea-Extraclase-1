@@ -7,7 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -36,6 +35,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         txtChat.setMaxSize(420,340);
         txtChat.setTranslateX(-30);
         txtChat.setTranslateY(-15);
+        txtChat.setWrapText(true);
         txtMessage.setMinSize(420,30);
         txtMessage.setMaxSize(420,30);
         txtMessage.setTranslateX(-30);
@@ -48,10 +48,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         layout.getChildren().add(txtMessage);
         Scene scene = new Scene(layout, 500, 400);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
-
-
-
     }
 
     public void send_message() throws IOException{
