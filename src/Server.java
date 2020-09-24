@@ -1,32 +1,30 @@
 import java.io.IOException;
 import java.net.ServerSocket;
-
-public class Server implements Runnable {
-    public int port;
-    int chat;
-    public Server(int port, int chat){
-        this.chat = chat;
-        this.port = port;
+/**
+ * Class Server
+ *
+ * Create the server and a thread that accepts clients
+ *
+ * @author Kenneth Castillo
+ * @version 1.0
+ */
+public class Server{
+    /**
+     * Builder method
+     *
+     * Connects to ServerSocket
+     * Starts the thread of Accept Clients
+     */
+    public static void main(String[] args){
+        int port = 6000;
         try {
             ServerSocket socket = new ServerSocket(port);
-            System.out.println("Servidor Iniciado");
-            Acept_Clients a = new Acept_Clients(socket, chat);
+            System.out.println("INIT SERVER");
+            Accept_Clients a = new Accept_Clients(socket);
             Thread q = new Thread(a);
             q.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    @Override
-    public void run() {
-    }
-}
-class Run_Server{
-    public static void main(String[] args) {
-        int chats = 1;
-        int port = 6000;
-        Server server = new Server(port, chats);
-        Thread z = new Thread(server);
-        z.start();
     }
 }
